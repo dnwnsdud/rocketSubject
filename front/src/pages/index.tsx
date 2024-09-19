@@ -12,6 +12,7 @@ export default function Home() {
   const router = useRouter();
   const [msg, setMsg] = useState<string[]>([]);
   const [input, setInput] = useState<string>('');
+  const [isSending, setIsSending] = useState<boolean>(false);
   const msgEndRef = useRef<HTMLDivElement>(null);
 
   const changeLanguage = (e: string) => {
@@ -22,7 +23,10 @@ export default function Home() {
   const chatFunc = async () => {
     if (input.trim()) {
       try {
+        if (isSending) return;
+        setIsSending(true);
         const res = await fetch(`${apiUrl}/api/message`, {
+
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -34,6 +38,8 @@ export default function Home() {
         setInput('');
       } catch (error) {
         console.error('Fetching error', error);
+      } finally {
+        setIsSending(false);
       }
     }
   };
