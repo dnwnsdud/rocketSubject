@@ -18,11 +18,11 @@ export default function Home() {
     router.push(router.pathname, router.asPath, { locale: e });
 
   };
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const chatFunc = async () => {
     if (input.trim()) {
       try {
-        const res = await fetch('http://localhost:5001/api/message', {
+        const res = await fetch(`${apiUrl}/api/message`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
